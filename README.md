@@ -12,6 +12,9 @@ npm i --save unsplash-api
 ```js
 var unsplash = require('unsplash-api');
 
+// this is required to verify your application's requests
+unsplash.init(myApiKey);
+
 var photos = unsplash.getUserPhotos('fletcher_hills', function(err, photos) {
   // do stuff with your newly acquired photos
 });
