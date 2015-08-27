@@ -31,8 +31,8 @@ function getUserPhotos(userName, callback) {
     }
   },
   function(err, res, body){
-    if (err) { return callback(err); }
+    if (err) return callback(err);
 
-    return callback(null, body);
+    return callback(null, JSON.parse(body));
   });
 }

@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "This is a wrapper for the Unsplash API",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "mocha test",
+    "pretest": "npm install"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/noahdietz/unsplash-api.git"
@@ -21,5 +24,10 @@
   "dependencies": {
     "path": "^0.11.14",
     "request": "^2.61.0"
+  },
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "dotenv": "^1.2.0",
+    "mocha": "^2.2.5"
   }
 }
