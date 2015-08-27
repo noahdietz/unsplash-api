@@ -12,9 +12,10 @@ npm i --save unsplash-api
 ```js
 var unsplash = require('unsplash-api');
 
-var photos = unsplash.getUserPhotos('fletcher_hills');
+var photos = unsplash.getUserPhotos('fletcher_hills', function(err, photos) {
+  // do stuff with your newly acquired photos
+});
 
-// do stuff with your newly acquired photos
 ```
 
 License [MIT](https://github.com/noahdietz/unsplash-api/blob/master/LICENSE)
