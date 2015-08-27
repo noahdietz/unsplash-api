@@ -1,0 +1,23 @@
+{
+  "name": "unsplash-api",
+  "version": "1.0.0",
+  "description": "This is a wrapper for the Unsplash API",
+  "main": "index.js",
+  "scripts": {
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/noahdietz/unsplash-api.git"
+  },
+  "keywords": [
+    "unsplash",
+    "photos"
+  ],
+  "author": "Noah Dietz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/noahdietz/unsplash-api/issues"
+  },
+  "homepage": "https://github.com/noahdietz/unsplash-api#readme"
+}
