@@ -1,2 +1,20 @@
 # unsplash-api
-This is a Node.js wrapper for the Unsplash API
+This is a Node.js wrapper for the Unsplash API.
+
+This project is still in development.
+
+## Installation
+```
+npm i --save unsplash-api
+```
+
+## Usage
+```js
+var unsplash = require('unsplash-api');
+
+var photos = unsplash.getUserPhotos('fletcher_hills');
+
+// do stuff with your newly acquired photos
+```
+
+License [MIT](https://github.com/noahdietz/unsplash-api/blob/master/LICENSE)
