@@ -10,10 +10,16 @@ var request = require('request');
 var path = require('path');
 
 var HOST = 'https://api.unsplash.com/'
+var client_id;
 
 module.exports = {
+  init: apiInit,
   getUserPhotos: getUserPhotos
 };
+
+function apiInit(client_id){
+  this.client_id = client_id;
+}
 
 function getUserPhotos(userName, callback) {
   request({
@@ -21,7 +27,7 @@ function getUserPhotos(userName, callback) {
     method: 'GET',
     headers: {
       'Content-type': 'application/json',
-      'Authorization': 'Client-ID ' + CLIENT_ID
+      'Authorization': 'Client-ID ' + this.client_id
     }
   },
   function(err, res, body){
