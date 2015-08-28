@@ -34,6 +34,8 @@ function getUserPhotos(userName, callback) {
   function(err, res, body){
     if (err) return callback(err);
 
+    if (res.statusCode !== 200) return callback(JSON.parse(body), null);
+
     return callback(null, JSON.parse(body));
   });
 }
@@ -49,6 +51,8 @@ function getUserByName(userName, callback) {
   },
   function(err, res, body) {
     if (err) return callback(err);
+
+    if (res.statusCode !== 200) return callback(JSON.parse(body), null);
 
     return callback(null, JSON.parse(body));
   });
