@@ -21,5 +21,17 @@ describe('Unsplash API public endpoints', function() {
         });
       });
     });
+
+    describe('getUserByName', function() {
+      it ('should return without err and with a user', function(done) {
+        api.getUserByName('fletcher_hills', function(err, user) {
+          if (err) return done(err);
+
+          user.should.be.ok;
+
+          done();
+        });
+      });
+    });
   });
 });
