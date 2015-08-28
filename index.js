@@ -14,7 +14,8 @@ var client_id;
 
 module.exports = {
   init: apiInit,
-  getUserPhotos: getUserPhotos
+  getUserPhotos: getUserPhotos,
+  getUserByName: getUserByName
 };
 
 function apiInit(client_id){
@@ -32,6 +33,26 @@ function getUserPhotos(userName, callback) {
   },
   function(err, res, body){
     if (err) return callback(err);
+
+    if (res.statusCode !== 200) return callback(JSON.parse(body), null);
+
+    return callback(null, JSON.parse(body));
+  });
+}
+
+function getUserByName(userName, callback) {
+  request({
+    url: (HOST + path.join('users', userName)),
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': 'Client-ID ' + this.client_id
+    }
+  },
+  function(err, res, body) {
+    if (err) return callback(err);
+
+    if (res.statusCode !== 200) return callback(JSON.parse(body), null);
 
     return callback(null, JSON.parse(body));
   });

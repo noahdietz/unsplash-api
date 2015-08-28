@@ -20,6 +20,38 @@ describe('Unsplash API public endpoints', function() {
           done();
         });
       });
+
+      it('should return with invalid username error', function(done) {
+        api.getUserPhotos('01234', function(err, photos) {
+
+          err.should.exist;
+          chai.expect(photos).to.not.exist;
+
+          done();
+        });
+      })
+    });
+
+    describe('getUserByName', function() {
+      it ('should return without err and with a user', function(done) {
+        api.getUserByName('fletcher_hills', function(err, user) {
+          if (err) return done(err);
+
+          user.should.be.ok;
+
+          done();
+        });
+      });
+
+      it ('should return with invalid username error', function(done) {
+        api.getUserByName('01234', function(err, user) {
+
+          err.should.exist;
+          chai.expect(user).to.not.exist;
+
+          done();
+        });
+      });
     });
   });
 });
