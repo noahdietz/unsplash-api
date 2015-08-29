@@ -1,5 +1,5 @@
 # unsplash-api
-This is a Node.js wrapper for the Unsplash API.
+This is a Node.js wrapper for the [Unsplash API](https://unsplash.com/developers).
 
 This project is still in development.
 
