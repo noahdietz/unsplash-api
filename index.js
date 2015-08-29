@@ -128,9 +128,9 @@ function getPhotos(page, perPage, callback) {
    },
    function(err, res, body){
       if (err) return callback(err);
-
-      if (res.statusCode !== 200) return callback(JSON.parse(body), null);
-
+      
+      if (res.statusCode !== 200) return callback(new Error(body), null);
+      
       return callback(null, JSON.parse(body), res.headers.link);
    });
 }

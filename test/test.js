@@ -59,8 +59,8 @@ describe('Unsplash API public endpoints', function() {
      describe('getPhotos', function() {
         it('should return without err and with the first 10 pictures', function(done) {
            api.getPhotos(null, null, function(err, photos, link) {
-              if(err) return done(err);
-
+              if (err) return done(err);
+              
               photos.should.be.instanceOf(Array);
               photos.should.have.length(10);
 
@@ -70,8 +70,8 @@ describe('Unsplash API public endpoints', function() {
 
         it('should return without err and with the first 20 pictures', function(done) {
            api.getPhotos(null, 20, function(err, photos, link) {
-               if(err) return done(err);
-
+               if (err) return done(err);
+               
                photos.should.be.instanceOf(Array);
                photos.should.have.length(20);
 
@@ -81,8 +81,8 @@ describe('Unsplash API public endpoints', function() {
 
         it('should return without err and with the second 10 pictures', function(done) {
            api.getPhotos(2, null, function(err, photos, link) {
-               if(err) return done(err);
-
+               if (err) return done(err);
+               
                photos.should.be.instanceOf(Array);
                photos.should.have.length(10);
 
@@ -91,6 +91,23 @@ describe('Unsplash API public endpoints', function() {
                done();
            });
         });
+     });
+     
+     describe.skip('searchPhotos', function() {
+        it('should return without err and with the first 10 pictures from query "beach"', function(done) {
+           api.searchPhotos('beach', null, null, null, function(err, photos, link) {
+              if (err) return done(err);
+              
+              photos.should.be.instanceOf(Array);
+              photos.should.have.length(10);
+              
+              link.should.contain('query=beach');
+              
+              done();
+           });
+        });
+        
+        it('should return without err and with ')
      });
   });
 
