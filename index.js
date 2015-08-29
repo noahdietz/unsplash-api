@@ -17,7 +17,8 @@ module.exports = {
   getUserPhotos: getUserPhotos,
   getUserByName: getUserByName,
   getPhotos: getPhotos,
-  getAllCategories: getAllCategories
+  getAllCategories: getAllCategories,
+  getCategory: getCategory
 };
 
 /**
@@ -100,6 +101,7 @@ function getAllCategories(callback) {
 }
 
 /**
+<<<<<<< HEAD
  * gets a single page of photos from the list of all photos
  * @param  {int}      page     target page number
  * @param  {int}      perPage  number of photos returned per page
@@ -132,4 +134,27 @@ function getPhotos(page, perPage, callback) {
 
       return callback(null, JSON.parse(body), res.headers.link);
    });
+=======
+ * get category information by ID
+ * @param  {string}   categoryId ID of target category
+ * @param  {Function} callback   called upon completion of API call
+ * @return {object}              target category information
+ */
+function getCategory(categoryId, callback) {
+  request({
+    url: (HOST + path.join('categories', categoryId)),
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': 'Client-ID ' + this.client_id
+    }
+  },
+  function(err, res, body) {
+    if (err) return callback(err);
+
+    if (res.statusCode !== 200) return callback(new Error(body), null);
+
+    return callback(null, JSON.parse(body));
+  });
+>>>>>>> add getCategory function
 }
