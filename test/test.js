@@ -93,7 +93,7 @@ describe('Unsplash API public endpoints', function() {
         });
      });
      
-     describe.skip('searchPhotos', function() {
+     describe('searchPhotos', function() {
         it('should return without err and with the first 10 pictures from query "beach"', function(done) {
            api.searchPhotos('beach', null, null, null, function(err, photos, link) {
               if (err) return done(err);
@@ -107,7 +107,55 @@ describe('Unsplash API public endpoints', function() {
            });
         });
         
-        it('should return without err and with ')
+        it('should return first 10 pictures from query "beach" with "nature" category applied', function(done) {
+           api.searchPhotos('beach', 4, null, null, function(err, photos, link) {
+              if (err) return done(err);
+              
+              photos.should.be.instanceOf(Array);
+              photos.should.have.length(10);
+              
+              link.should.contain('query=beach');
+              link.should.contain('category=4');
+              
+              done();
+           });     
+        });
+        
+        it('should return without err and the second 10 pictures from query "beach"', function(done) {
+           api.searchPhotos('beach', null, 2, null, function(err, photos, link) {
+              if (err) return done(err);
+              
+              photos.should.be.instanceOf(Array);
+              photos.should.have.length(10);
+              
+              link.should.contain('<https://api.unsplash.com/photos/search?page=1&query=beach>; rel="prev",');
+              
+              done();
+           });
+        });
+        
+        it('should return without err and with the first 20 pictures from query "beach"', function(done) {
+           api.searchPhotos('beach', null, null, 20, function(err, photos, link) {
+              if (err) return done(err);
+              
+              photos.should.be.instanceOf(Array);
+              photos.should.have.length(20);
+              
+              link.should.contain('query=beach');
+              
+              done();
+           });
+        });
+        
+        it('should return with invalid query error', function(done) {
+           api.searchPhotos(null, null, null, null, function(err, photos, link) {
+              err.should.exist;
+              chai.expect(photos).to.not.exist;
+              chai.expect(link).to.not.exist;
+              
+              done();
+           });
+        });
      });
   });
 
