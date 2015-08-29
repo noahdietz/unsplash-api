@@ -86,7 +86,6 @@ describe('Unsplash API public endpoints', function() {
                photos.should.be.instanceOf(Array);
                photos.should.have.length(10);
                
-               console.log(typeof link);
                link.should.contain('<https://api.unsplash.com/photos?page=1>; rel="prev",');
                
                done();
