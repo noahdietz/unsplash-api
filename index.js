@@ -15,7 +15,8 @@ var client_id;
 module.exports = {
   init: apiInit,
   getUserPhotos: getUserPhotos,
-  getUserByName: getUserByName
+  getUserByName: getUserByName,
+  getPhotos: getPhotos
 };
 
 /**
@@ -52,7 +53,7 @@ function getUserPhotos(userName, callback) {
 
 /**
  * gets the public info of the specified user
- * @param  {strong}   userName username of target user
+ * @param  {string}   userName username of target user
  * @param  {Function} callback callback called upon completion of API call
  * @return {object}            specified user object
  */
@@ -72,4 +73,39 @@ function getUserByName(userName, callback) {
 
     return callback(null, JSON.parse(body));
   });
+}
+
+/**
+ * gets a single page of photos from the list of all photos
+ * @param  {int}      page     target page number
+ * @param  {int}      perPage  number of photos returned per page
+ * @param  {Function} callback callback called upon completion of API call
+ * @return {object}            array of perPage amount of photos, and a
+ *                             string of links for prev/next
+ */
+function getPhotos(page, perPage, callback) {
+   var params = {};
+   
+   if (page != null)
+      params.page = page;
+      
+   if (perPage != null) 
+      params.per_page = perPage;
+   
+   request({
+      url: (HOST + path.join('photos')),
+      method: 'GET',
+      qs: params,
+      headers: {
+         'Content-type': 'application/json',
+         'Authorization': 'Client-ID ' + this.client_id
+      }
+   },
+   function(err, res, body){
+      if (err) return callback(err);
+      
+      if (res.statusCode !== 200) return callback(JSON.parse(body), null);
+      
+      return callback(null, JSON.parse(body), res.headers.link);
+   });
 }
