@@ -108,7 +108,7 @@ describe('Unsplash API public endpoints', function() {
         });
         
         it('should return first 10 pictures from query "beach" with "nature" category applied', function(done) {
-           api.searchPhotos('beach', 4, null, null, function(err, photos, link) {
+           api.searchPhotos('beach', [4], null, null, function(err, photos, link) {
               if (err) return done(err);
               
               photos.should.be.instanceOf(Array);
@@ -116,6 +116,19 @@ describe('Unsplash API public endpoints', function() {
               
               link.should.contain('query=beach');
               link.should.contain('category=4');
+              
+              done();
+           });     
+        });
+        
+        it('should return first 10 pictures from query "beach" with "nature" and "people" categories applied', function(done) {
+           api.searchPhotos('beach', [4, 6], null, null, function(err, photos, link) {
+              if (err) return done(err);
+              
+              photos.should.be.instanceOf(Array);
+              photos.should.have.length(10);
+              
+              link.should.contain('query=beach');
               
               done();
            });     
@@ -152,6 +165,64 @@ describe('Unsplash API public endpoints', function() {
               err.should.exist;
               chai.expect(photos).to.not.exist;
               chai.expect(link).to.not.exist;
+              
+              done();
+           });
+        });
+     });
+     
+     describe('getPhoto', function() {
+        it('should return without err and single photo from account "cacobjopus"', function(done) {     
+           api.getPhoto('9gkKZO-xezM', null, null, null, function(err, photo) {
+              if (err) return done(err);
+              
+              photo.should.be.ok;
+              photo.id.should.equal('9gkKZO-xezM');
+              
+              done();
+           });
+        });
+        
+        it('should return without err and single photo with custom width', function(done) {
+           api.getPhoto('9gkKZO-xezM', 500, null, null, function(err, photo) {
+              if (err) return done(err);
+              
+              photo.should.be.ok;
+              photo.id.should.equal('9gkKZO-xezM');
+              photo.urls.custom.should.be.ok;
+              
+              done();
+           });
+        });
+        
+        it('should return without err and single photo with custom height', function(done) {
+           api.getPhoto('9gkKZO-xezM', null, 250, null, function(err, photo) {
+              if (err) return done(err);
+              
+              photo.should.be.ok;
+              photo.id.should.equal('9gkKZO-xezM');
+              photo.urls.custom.should.be.ok;
+              
+              done();
+           });
+        });
+        
+        it('should return without err and single photo with custom dimensions', function(done) {
+           api.getPhoto('9gkKZO-xezM', null, null, [10, 10, 500, 250], function(err, photo) {
+              if (err) return done(err);
+          
+              photo.should.be.ok;
+              photo.id.should.equal('9gkKZO-xezM');
+              photo.urls.custom.should.be.ok;
+              
+              done();
+           });
+        });
+        
+        it('should return invalid id err', function(done) {
+           api.getPhoto('1', null, null, null, function(err, photo) {
+              err.should.exist;
+              chai.expect(photo).to.not.exist;
               
               done();
            });
