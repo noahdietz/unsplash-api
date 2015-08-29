@@ -21,7 +21,9 @@ module.exports = {
   getPhoto: getPhoto,
   getAllCategories: getAllCategories,
   getCategory: getCategory,
-  getCategoryPhotos: getCategoryPhotos
+  getCategoryPhotos: getCategoryPhotos,
+  getCurrentUser: getCurrentUser,
+  updateCurrentUser: updateCurrentUser
 };
 
 /**
@@ -131,9 +133,9 @@ function getPhotos(page, perPage, callback) {
    },
    function(err, res, body){
       if (err) return callback(err);
-      
+
       if (res.statusCode !== 200) return callback(new Error(body), null);
-      
+
       return callback(null, JSON.parse(body), res.headers.link);
    });
 }
@@ -151,20 +153,20 @@ function getPhotos(page, perPage, callback) {
 function searchPhotos(query, categories, page, perPage, callback) {
    var params = {};
 
-   if (query != null) 
+   if (query != null)
       params.query = query;
-      
+
    if (categories != null) {
       params.category = '';
       for (var index = 0; index < categories; index++) {
          params.category += categories[index];
-         
+
          if (index != categories.length - 1)
             params.category += ',';
       }
    }
-      
-   
+
+
    if (page != null)
       params.page = page;
 
@@ -182,9 +184,9 @@ function searchPhotos(query, categories, page, perPage, callback) {
    },
    function(err, res, body){
       if (err) return callback(err);
-      
+
       if (res.statusCode !== 200) return callback(new Error(body), null);
-      
+
       return callback(null, JSON.parse(body), res.headers.link);
    });
 }
@@ -200,10 +202,10 @@ function searchPhotos(query, categories, page, perPage, callback) {
  */
 function getPhoto(id, width, height, rect, callback) {
    var params = {};
-      
-   if (width != null) 
+
+   if (width != null)
       params.w = width;
-   
+
    if (height != null)
       params.h = height;
 
@@ -221,9 +223,9 @@ function getPhoto(id, width, height, rect, callback) {
    },
    function(err, res, body){
       if (err) return callback(err);
-      
+
       if (res.statusCode !== 200) return callback(new Error(body), null);
-      
+
       return callback(null, JSON.parse(body));
    });
 }
@@ -267,5 +269,55 @@ function getCategoryPhotos(categoryId, callback) {
     if (res.statusCode !== 200) return callback(new Error(body), null);
 
     return callback(null, JSON.parse(body), res.headers.link);
+  });
+}
+
+/**
+ * retrieves personal information about the logged-in user
+ * @param  {string}   token    OAuth token for target user
+ * @param  {Function} callback called upon completion of API call
+ * @return {object}            logged-in user information
+ */
+function getCurrentUser(token, callback) {
+  request({
+    url: (HOST + 'me'),
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    }
+  },
+  function(err, res, body) {
+    if (err) return callback(err);
+
+    if (res.statusCode !== 200) return callback(new Error(body), null);
+
+    return callback(null, JSON.parse(body));
+  });
+}
+
+/**
+ * update the current logged-in user's personal information
+ * @param  {string}   token    OAuth token for target user
+ * @param  {object}   changes  information to be changed in logged-in user
+ * @param  {Function} callback called upon completion of API call
+ * @return {object}            new information of logged-in user
+ */
+function updateCurrentUser(token, changes, callback) {
+  request({
+    url: (HOST + 'me'),
+    method: 'PUT',
+    qs: changes,
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    }
+  },
+  function(err, res, body) {
+    if (err) return callback(err);
+
+    if (res.statusCode !== 200) return callback(new Error(body), null);
+
+    return callback(null, JSON.parse(body));
   });
 }
