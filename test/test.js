@@ -105,6 +105,28 @@ describe('Unsplash API public endpoints', function() {
           done();
         });
       })
-    })
-  })
+    });
+  });
+
+  describe('getCategory', function() {
+    it('should return without err and category #2 info', function(done) {
+      api.getCategory('2', function(err, category) {
+        if (err) return done(err);
+
+        category.should.be.ok;
+        category.id.should.equal(2);
+
+        done();
+      });
+    });
+
+    it('should return with invalid ID error', function(done) {
+      api.getCategory('-1', function(err, category) {
+        err.should.exist;
+        chai.expect(category).to.not.exist;
+
+        done();
+      });
+    });
+  });
 });
