@@ -18,6 +18,7 @@ module.exports = {
   getUserByName: getUserByName,
   getPhotos: getPhotos,
   searchPhotos: searchPhotos,
+  getPhoto: getPhoto,
   getAllCategories: getAllCategories,
   getCategory: getCategory,
   getCategoryPhotos: getCategoryPhotos
@@ -139,22 +140,30 @@ function getPhotos(page, perPage, callback) {
 
 /**
  * gets a single page of photos by search query
- * @param  {string}   query    term to search by
- * @param  {Array}    category ids of categories to filter by, as an array of ints
- * @param  {int}      page     target page number
- * @param  {int}      perPage  number of photos returned per page
- * @param  {Function} callback callback called upon completion of API call
- * @return {object}            array of perPage amount of photos, and a
- *                             string of links for prev/next
+ * @param  {string}   query      term to search by
+ * @param  {Array}    categories ids of categories to filter by, as an array of ints
+ * @param  {int}      page       target page number
+ * @param  {int}      perPage    number of photos returned per page
+ * @param  {Function} callback   callback called upon completion of API call
+ * @return {object}              array of perPage amount of photos, and a
+ *                               string of links for prev/next
  */
-function searchPhotos(query, category, page, perPage, callback) {
+function searchPhotos(query, categories, page, perPage, callback) {
    var params = {};
 
    if (query != null) 
       params.query = query;
       
-   if (category != null) 
-      params.category = category;
+   if (categories != null) {
+      params.category = '';
+      for (var index = 0; index < categories; index++) {
+         params.category += categories[index];
+         
+         if (index != categories.length - 1)
+            params.category += ',';
+      }
+   }
+      
    
    if (page != null)
       params.page = page;
@@ -177,6 +186,45 @@ function searchPhotos(query, category, page, perPage, callback) {
       if (res.statusCode !== 200) return callback(new Error(body), null);
       
       return callback(null, JSON.parse(body), res.headers.link);
+   });
+}
+
+/**
+ * gets a single photo by id
+ * @param  {string}   id       id of photo to request
+ * @param  {int}      width    custom width to apply
+ * @param  {int}      height   custom height to apply
+ * @param  {Array}    rect     custom rectangle to apply [x, y, width, height]
+ * @param  {Function} callback callback called upon completion of API call
+ * @return {object}            requested photo
+ */
+function getPhoto(id, width, height, rect, callback) {
+   var params = {};
+      
+   if (width != null) 
+      params.w = width;
+   
+   if (height != null)
+      params.h = height;
+
+   if (rect != null)
+      params.rect = rect[0] + ',' + rect[1] + ',' + rect[2] + ',' + rect[3];
+
+   request({
+      url: (HOST + path.join('photos', id)),
+      method: 'GET',
+      qs: params,
+      headers: {
+         'Content-type': 'application/json',
+         'Authorization': 'Client-ID ' + this.client_id
+      }
+   },
+   function(err, res, body){
+      if (err) return callback(err);
+      
+      if (res.statusCode !== 200) return callback(new Error(body), null);
+      
+      return callback(null, JSON.parse(body));
    });
 }
 
