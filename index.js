@@ -18,7 +18,8 @@ module.exports = {
   getUserByName: getUserByName,
   getPhotos: getPhotos,
   getAllCategories: getAllCategories,
-  getCategory: getCategory
+  getCategory: getCategory,
+  getCategoryPhotos: getCategoryPhotos
 };
 
 /**
@@ -156,5 +157,23 @@ function getCategory(categoryId, callback) {
     if (res.statusCode !== 200) return callback(new Error(body), null);
 
     return callback(null, JSON.parse(body));
+  });
+}
+
+function getCategoryPhotos(categoryId, callback) {
+  request({
+    url: (HOST + path.join('categories', categoryId, 'photos')),
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': 'Client-ID ' + this.client_id
+    }
+  },
+  function(err, res, body) {
+    if (err) return callback(err);
+
+    if (res.statusCode !== 200) return callback(new Error(body), null);
+
+    return callback(null, JSON.parse(body), res.headers.link);
   });
 }
