@@ -54,4 +54,44 @@ describe('Unsplash API public endpoints', function() {
       });
     });
   });
+  
+  describe('Photos', function() {
+     describe('getPhotos', function() {
+        it('should return without err and with the first 10 pictures', function(done) {
+           api.getPhotos(null, null, function(err, photos, link) {
+              if(err) return done(err);
+              
+              photos.should.be.instanceOf(Array);
+              photos.should.have.length(10);
+              
+              done();
+           });
+        });
+        
+        it('should return without err and with the first 20 pictures', function(done) {
+           api.getPhotos(null, 20, function(err, photos, link) {
+               if(err) return done(err);
+               
+               photos.should.be.instanceOf(Array);
+               photos.should.have.length(20);
+               
+               done();
+           });
+        });
+        
+        it('should return without err and with the second 10 pictures', function(done) {
+           api.getPhotos(2, null, function(err, photos, link) {
+               if(err) return done(err);
+               
+               photos.should.be.instanceOf(Array);
+               photos.should.have.length(10);
+               
+               console.log(typeof link);
+               link.should.contain('<https://api.unsplash.com/photos?page=1>; rel="prev",');
+               
+               done();
+           });
+        });
+     });
+  });
 });
