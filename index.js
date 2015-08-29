@@ -16,7 +16,8 @@ module.exports = {
   init: apiInit,
   getUserPhotos: getUserPhotos,
   getUserByName: getUserByName,
-  getPhotos: getPhotos
+  getPhotos: getPhotos,
+  getAllCategories: getAllCategories
 };
 
 /**
@@ -45,7 +46,7 @@ function getUserPhotos(userName, callback) {
   function(err, res, body){
     if (err) return callback(err);
 
-    if (res.statusCode !== 200) return callback(JSON.parse(body), null);
+    if (res.statusCode !== 200) return callback(new Error(body), null);
 
     return callback(null, JSON.parse(body));
   });
@@ -69,7 +70,30 @@ function getUserByName(userName, callback) {
   function(err, res, body) {
     if (err) return callback(err);
 
-    if (res.statusCode !== 200) return callback(JSON.parse(body), null);
+    if (res.statusCode !== 200) return callback(new Error(body), null);
+
+    return callback(null, JSON.parse(body));
+  });
+}
+
+/**
+ * gets all of the available photo categories
+ * @param  {Function} callback called upon completion of API call
+ * @return {array}            set of photo categories
+ */
+function getAllCategories(callback) {
+  request({
+    url: (HOST + 'categories'),
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': 'Client-ID ' + this.client_id
+    }
+  },
+  function(err, res, body) {
+    if (err) return callback(err);
+
+    if (res.statusCode !== 200) return callback(new Error(body), null);
 
     return callback(null, JSON.parse(body));
   });
@@ -85,13 +109,13 @@ function getUserByName(userName, callback) {
  */
 function getPhotos(page, perPage, callback) {
    var params = {};
-   
+
    if (page != null)
       params.page = page;
-      
-   if (perPage != null) 
+
+   if (perPage != null)
       params.per_page = perPage;
-   
+
    request({
       url: (HOST + path.join('photos')),
       method: 'GET',
@@ -103,9 +127,9 @@ function getPhotos(page, perPage, callback) {
    },
    function(err, res, body){
       if (err) return callback(err);
-      
+
       if (res.statusCode !== 200) return callback(JSON.parse(body), null);
-      
+
       return callback(null, JSON.parse(body), res.headers.link);
    });
 }
