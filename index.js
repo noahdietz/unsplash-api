@@ -17,6 +17,7 @@ module.exports = {
   getUserPhotos: getUserPhotos,
   getUserByName: getUserByName,
   getPhotos: getPhotos,
+  searchPhotos: searchPhotos,
   getAllCategories: getAllCategories,
   getCategory: getCategory,
   getCategoryPhotos: getCategoryPhotos
@@ -120,6 +121,49 @@ function getPhotos(page, perPage, callback) {
 
    request({
       url: (HOST + path.join('photos')),
+      method: 'GET',
+      qs: params,
+      headers: {
+         'Content-type': 'application/json',
+         'Authorization': 'Client-ID ' + this.client_id
+      }
+   },
+   function(err, res, body){
+      if (err) return callback(err);
+      
+      if (res.statusCode !== 200) return callback(new Error(body), null);
+      
+      return callback(null, JSON.parse(body), res.headers.link);
+   });
+}
+
+/**
+ * gets a single page of photos by search query
+ * @param  {string}   query    term to search by
+ * @param  {Array}    category ids of categories to filter by, as an array of ints
+ * @param  {int}      page     target page number
+ * @param  {int}      perPage  number of photos returned per page
+ * @param  {Function} callback callback called upon completion of API call
+ * @return {object}            array of perPage amount of photos, and a
+ *                             string of links for prev/next
+ */
+function searchPhotos(query, category, page, perPage, callback) {
+   var params = {};
+
+   if (query != null) 
+      params.query = query;
+      
+   if (category != null) 
+      params.category = category;
+   
+   if (page != null)
+      params.page = page;
+
+   if (perPage != null)
+      params.per_page = perPage;
+
+   request({
+      url: (HOST + path.join('photos', 'search')),
       method: 'GET',
       qs: params,
       headers: {
