@@ -101,7 +101,6 @@ function getAllCategories(callback) {
 }
 
 /**
-<<<<<<< HEAD
  * gets a single page of photos from the list of all photos
  * @param  {int}      page     target page number
  * @param  {int}      perPage  number of photos returned per page
@@ -134,7 +133,9 @@ function getPhotos(page, perPage, callback) {
 
       return callback(null, JSON.parse(body), res.headers.link);
    });
-=======
+}
+
+/**
  * get category information by ID
  * @param  {string}   categoryId ID of target category
  * @param  {Function} callback   called upon completion of API call
@@ -156,5 +157,4 @@ function getCategory(categoryId, callback) {
 
     return callback(null, JSON.parse(body));
   });
->>>>>>> add getCategory function
 }
