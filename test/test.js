@@ -9,7 +9,7 @@ chai.should();
 describe('Unsplash API public endpoints', function() {
   api.init(process.env.CLIENT_ID);
 
-  describe.skip('User', function() {
+  describe('User', function() {
     describe('getUserPhotos', function() {
       it('should return without err and with an empty array', function(done) {
         api.getUserPhotos('fletcher_hills', function(err, photos) {
@@ -55,7 +55,7 @@ describe('Unsplash API public endpoints', function() {
     });
   });
 
-  describe.skip('Photos', function() {
+  describe('Photos', function() {
      describe('getPhotos', function() {
         it('should return without err and with the first 10 pictures', function(done) {
            api.getPhotos(null, null, function(err, photos, link) {
@@ -347,6 +347,29 @@ describe('Unsplash API public endpoints', function() {
               
               batches.should.be.instanceOf(Array);
               batches.should.have.length(20);
+              
+              done();
+           });
+        });
+     });
+     
+     describe('getCuratedBatch', function() {
+        it('should return without err and a curated batch object', function(done) {
+           api.getCuratedBatch(1, function(err, batch) {
+              if (err) return done(err);
+              
+              batch.should.be.ok;
+              batch.id.should.equal(1);
+              
+              done();
+           });
+        });
+        
+        it('should return with an invalid ID error', function(done) {
+           api.getCuratedBatch(-1, function(err, batch) {
+              err.should.exist;
+              
+              chai.expect(batch).to.not.exist;
               
               done();
            });
