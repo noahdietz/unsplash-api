@@ -25,6 +25,7 @@ module.exports = {
   getCuratedBatches: getCuratedBatches,
   getCuratedBatch: getCuratedBatch,
   getCuratedBatchPhotos: getCuratedBatchPhotos,
+  getTotalStats: getTotalStats,
   getCurrentUser: getCurrentUser,
   updateCurrentUser: updateCurrentUser
 };
@@ -357,6 +358,29 @@ function getCuratedBatch(id, callback) {
 function getCuratedBatchPhotos(id, callback) {
   request({
     url: (HOST + path.join('curated_batches', id.toString(), 'photos')),
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': 'Client-ID ' + this.client_id
+    }
+  },
+  function(err, res, body) {
+    if (err) return callback(err);
+
+    if (res.statusCode !== 200) return callback(new Error(body), null);
+
+    return callback(null, JSON.parse(body));
+  });
+}
+
+/**
+ * get total download stats
+ * @param  {Function} callback   called upon completion of API call
+ * @return {object}              object with total download stats
+ */
+function getTotalStats(callback) {
+  request({
+    url: (HOST + path.join('stats', 'total')),
     method: 'GET',
     headers: {
       'Content-type': 'application/json',

@@ -399,4 +399,18 @@ describe('Unsplash API public endpoints', function() {
         });
      });
   });
+  
+  describe('Stats', function() {
+     describe('getTotalStats', function() {
+        it('should return with an object of all downloads', function(done) {
+           api.getTotalStats(function(err, stats) {
+              if (err) return done(err);
+              
+              stats.should.exist;
+              
+              done();
+           });
+        });
+     });
+  });
 });
