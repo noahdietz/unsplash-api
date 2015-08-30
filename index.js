@@ -23,6 +23,7 @@ module.exports = {
   getCategory: getCategory,
   getCategoryPhotos: getCategoryPhotos,
   getCuratedBatches: getCuratedBatches,
+  getCuratedBatch: getCuratedBatch,
   getCurrentUser: getCurrentUser,
   updateCurrentUser: updateCurrentUser
 };
@@ -293,7 +294,7 @@ function getCategoryPhotos(categoryId, page, perPage, callback) {
  * @param  {int}      page       target page number
  * @param  {int}      perPage    number of results per page
  * @param  {Function} callback   called upon completion of API call
- * @return {object}              target category information
+ * @return {object}              target curated batches info
  */
 function getCuratedBatches(page, perPage, callback) {
   var params = {};
@@ -319,6 +320,30 @@ function getCuratedBatches(page, perPage, callback) {
     if (res.statusCode !== 200) return callback(new Error(body), null);
 
     return callback(null, JSON.parse(body), res.headers.link);
+  });
+}
+
+/**
+ * get info from a curated batch
+ * @param  {int}      id         target page number
+ * @param  {Function} callback   called upon completion of API call
+ * @return {object}              target curated batch info
+ */
+function getCuratedBatch(id, callback) {
+  request({
+    url: (HOST + path.join('curated_batches', id.toString())),
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': 'Client-ID ' + this.client_id
+    }
+  },
+  function(err, res, body) {
+    if (err) return callback(err);
+
+    if (res.statusCode !== 200) return callback(new Error(body), null);
+
+    return callback(null, JSON.parse(body));
   });
 }
 
