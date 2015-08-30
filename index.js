@@ -22,6 +22,7 @@ module.exports = {
   getAllCategories: getAllCategories,
   getCategory: getCategory,
   getCategoryPhotos: getCategoryPhotos,
+  getCuratedBatches: getCuratedBatches,
   getCurrentUser: getCurrentUser,
   updateCurrentUser: updateCurrentUser
 };
@@ -254,10 +255,59 @@ function getCategory(categoryId, callback) {
   });
 }
 
-function getCategoryPhotos(categoryId, callback) {
+/**
+ * get photos from a specific category
+ * @param  {string}   categoryId ID of target category
+ * @param  {Function} callback   called upon completion of API call
+ * @return {object}              target category information
+ */
+function getCategoryPhotos(categoryId, page, perPage, callback) {
+  var params = {};
+
+  if (page != null)
+     params.page = page;
+
+  if (perPage != null)
+     params.per_page = perPage;
+   
   request({
     url: (HOST + path.join('categories', categoryId, 'photos')),
     method: 'GET',
+    qs: params,
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': 'Client-ID ' + this.client_id
+    }
+  },
+  function(err, res, body) {
+    if (err) return callback(err);
+
+    if (res.statusCode !== 200) return callback(new Error(body), null);
+
+    return callback(null, JSON.parse(body), res.headers.link);
+  });
+}
+
+/**
+ * get a single page of curated batches
+ * @param  {int}      page       target page number
+ * @param  {int}      perPage    number of results per page
+ * @param  {Function} callback   called upon completion of API call
+ * @return {object}              target category information
+ */
+function getCuratedBatches(page, perPage, callback) {
+  var params = {};
+
+  if (page != null)
+     params.page = page;
+
+  if (perPage != null)
+  params.per_page = perPage;
+   
+  request({
+    url: (HOST + path.join('curated_batches')),
+    method: 'GET',
+    qs: params,
     headers: {
       'Content-type': 'application/json',
       'Authorization': 'Client-ID ' + this.client_id
