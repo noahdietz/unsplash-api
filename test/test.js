@@ -9,7 +9,7 @@ chai.should();
 describe('Unsplash API public endpoints', function() {
   api.init(process.env.CLIENT_ID);
 
-  describe('User', function() {
+  describe.skip('User', function() {
     describe('getUserPhotos', function() {
       it('should return without err and with an empty array', function(done) {
         api.getUserPhotos('fletcher_hills', function(err, photos) {
@@ -55,7 +55,7 @@ describe('Unsplash API public endpoints', function() {
     });
   });
 
-  describe('Photos', function() {
+  describe.skip('Photos', function() {
      describe('getPhotos', function() {
         it('should return without err and with the first 10 pictures', function(done) {
            api.getPhotos(null, null, function(err, photos, link) {
@@ -266,19 +266,45 @@ describe('Unsplash API public endpoints', function() {
     });
 
     describe('getCategoryPhotos', function() {
-      it('should return without err and an array of photos', function(done) {
-        api.getCategoryPhotos('2', function(err, photos, link) {
+      it('should return without err and an array of the first 10 photos', function(done) {
+        api.getCategoryPhotos('2', null, null, function(err, photos, link) {
           if (err) return done(err);
 
           photos.should.be.instanceOf(Array);
+          photos.should.have.length(10);
           link.should.be.ok;
 
           done();
         });
       });
+      
+      it('should return without err and an array of the second 10 photos', function(done) {
+         api.getCategoryPhotos('2', 2, null, function(err, photos, link) {
+            if (err) return done(err);
+            
+            photos.should.be.instanceOf(Array);
+            photos.should.have.length(10);
+            link.should.be.ok;
+            link.should.contain('<https://api.unsplash.com/categories/2/photos?page=3>; rel="next"');
+            
+            done();
+         });
+      });
+      
+      it('should return without err and an array of the first 20 photos', function(done) {
+         api.getCategoryPhotos('2', null, 20, function(err, photos, link) {
+            if (err) return done(err);
+            
+            photos.should.be.instanceOf(Array);
+            photos.should.have.length(20);
+            link.should.be.ok;
+            
+            done();
+         });
+      });
 
       it('should return with an invalid ID error', function(done) {
-        api.getCategoryPhotos('-1', function(err, photos, link) {
+        api.getCategoryPhotos('-1', null, null, function(err, photos, link) {
           err.should.exist;
 
           chai.expect(photos).to.not.exist;
@@ -288,5 +314,43 @@ describe('Unsplash API public endpoints', function() {
         });
       });
     });
+  });
+  
+  describe('Curated Batches', function() {
+     describe('getCuratedBatches', function() {
+        it('should return without err and the first page of 10 curated batches', function(done) {
+           api.getCuratedBatches(null, null, function(err, batches, link) {
+              if (err) return done(err);
+              
+              batches.should.be.instanceOf(Array);
+              batches.should.have.length(10);
+              
+              done();
+           });
+        });
+        
+        it('should return without err and the second page of 10 curated batches', function(done) {
+           api.getCuratedBatches(2, null, function(err, batches, link) {
+              if (err) return done(err);
+              
+              batches.should.be.instanceOf(Array);
+              batches.should.have.length(10);
+              link.should.contain('<https://api.unsplash.com/curated_batches?page=3>; rel="next"');
+              
+              done();
+           });
+        });
+        
+        it('should return without err and the first page of 20 curated batches', function(done) {
+           api.getCuratedBatches(null, 20, function(err, batches, link) {
+              if (err) return done(err);
+              
+              batches.should.be.instanceOf(Array);
+              batches.should.have.length(20);
+              
+              done();
+           });
+        });
+     });
   });
 });
