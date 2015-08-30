@@ -121,7 +121,7 @@ describe('Unsplash API public endpoints', function() {
            });     
         });
         
-        it('should return first 10 pictures from query "beach" with "nature" and "people" categories applied', function(done) {
+        it('should return 10 pictures from query "beach" with "nature" and "people" categories applied', function(done) {
            api.searchPhotos('beach', [4, 6], null, null, function(err, photos, link) {
               if (err) return done(err);
               
@@ -370,6 +370,29 @@ describe('Unsplash API public endpoints', function() {
               err.should.exist;
               
               chai.expect(batch).to.not.exist;
+              
+              done();
+           });
+        });
+     });
+     
+     describe('getCuratedBatchPhotos', function() {
+        it('should return without err and an array of 10 photos', function(done) {
+           api.getCuratedBatchPhotos(1, function(err, photos) {
+              if (err) return done(err);
+              
+              photos.should.be.instanceOf(Array);
+              photos.should.have.length(10);
+              
+              done();
+           });
+        });
+        
+        it('should return with an invalid ID error', function(done) {
+           api.getCuratedBatchPhotos(-1, function(err, photos) {
+              err.should.exist;
+              
+              chai.expect(photos).to.not.exist;
               
               done();
            });
