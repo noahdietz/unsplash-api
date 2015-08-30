@@ -24,6 +24,7 @@ module.exports = {
   getCategoryPhotos: getCategoryPhotos,
   getCuratedBatches: getCuratedBatches,
   getCuratedBatch: getCuratedBatch,
+  getCuratedBatchPhotos: getCuratedBatchPhotos,
   getCurrentUser: getCurrentUser,
   updateCurrentUser: updateCurrentUser
 };
@@ -332,6 +333,30 @@ function getCuratedBatches(page, perPage, callback) {
 function getCuratedBatch(id, callback) {
   request({
     url: (HOST + path.join('curated_batches', id.toString())),
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': 'Client-ID ' + this.client_id
+    }
+  },
+  function(err, res, body) {
+    if (err) return callback(err);
+
+    if (res.statusCode !== 200) return callback(new Error(body), null);
+
+    return callback(null, JSON.parse(body));
+  });
+}
+
+/**
+ * get photos from a curated batch
+ * @param  {int}      id         target page number
+ * @param  {Function} callback   called upon completion of API call
+ * @return {object}              target curated batch photos
+ */
+function getCuratedBatchPhotos(id, callback) {
+  request({
+    url: (HOST + path.join('curated_batches', id.toString(), 'photos')),
     method: 'GET',
     headers: {
       'Content-type': 'application/json',
