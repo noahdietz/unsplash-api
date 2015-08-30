@@ -44,7 +44,7 @@ function apiInit(client_id){
  *
  * @callback getUserPhotosCallback
  * @param {object}  Error response error object
- * @param {Array}   photos array of photos form specified user
+ * @param {Array}   photos array of photos from specified user
  */
 
 /**
@@ -142,8 +142,8 @@ function getAllCategories(callback) {
 
 /**
  * gets a single page of photos from the list of all photos
- * @param  {int}      [page]     target page number
- * @param  {int}      [perPage]  number of photos returned per page
+ * @param  {int}      page     target page number
+ * @param  {int}      perPage  number of photos returned per page
  * @param  {getPhotosCallback} callback called upon completion of API call
  */
 function getPhotos(page, perPage, callback) {
@@ -185,9 +185,9 @@ function getPhotos(page, perPage, callback) {
 /**
  * gets a single page of photos by search query
  * @param  {string}   query      term to search by
- * @param  {Array}    [categories] ids of categories to filter by, as an array of ints
- * @param  {int}      [page]       target page number
- * @param  {int}      [perPage]    number of photos returned per page
+ * @param  {Array}    categories ids of categories to filter by, as an array of ints
+ * @param  {int}      page       target page number
+ * @param  {int}      perPage    number of photos returned per page
  * @param  {searchPhotosCallback} callback  called upon completion of API call
  */
 function searchPhotos(query, categories, page, perPage, callback) {
@@ -242,9 +242,9 @@ function searchPhotos(query, categories, page, perPage, callback) {
 /**
  * gets a single photo by id
  * @param  {string}   id       id of photo to request
- * @param  {int}      [width]    custom width to apply
- * @param  {int}      [height]   custom height to apply
- * @param  {Array}    [rect]     custom rectangle to apply [x, y, width, height]
+ * @param  {int}      width    custom width to apply
+ * @param  {int}      height   custom height to apply
+ * @param  {Array}    rect     custom rectangle to apply [x, y, width, height]
  * @param  {getPhotoCallback} callback called upon completion of API call
  */
 function getPhoto(id, width, height, rect, callback) {
@@ -320,8 +320,8 @@ function getCategory(categoryId, callback) {
 /**
  * get photos from a specific category
  * @param {string} categoryId id of the target category
- * @param {int} [page] target page of photos to return
- * @param {int} [perPage] number of photos per page
+ * @param {int} page target page of photos to return
+ * @param {int} perPage number of photos per page
  * @param {getCategoryPhotosCallback} callback called upon completion of API call
  */
 function getCategoryPhotos(categoryId, page, perPage, callback) {
@@ -361,8 +361,8 @@ function getCategoryPhotos(categoryId, page, perPage, callback) {
 
 /**
  * get a single page of curated batches
- * @param  {int}      [page]       target page number
- * @param  {int}      [perPage]    number of results per page
+ * @param  {int}      page       target page number
+ * @param  {int}      perPage    number of results per page
  * @param  {getCuratedBatchesCallback} callback   called upon completion of API call
  */
 function getCuratedBatches(page, perPage, callback) {
