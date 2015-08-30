@@ -1,7 +1,8 @@
 /**
  * This file contains the main functionality for the unsplash-api module
  *
- * @author Noah Dietz
+ * @author Noah Dietz - noahdietz
+ * @author Jacob Copus  - jcopus
  */
 
 'use strict';
@@ -39,10 +40,17 @@ function apiInit(client_id){
 }
 
 /**
+ * Callback that returns retrieved user photos
+ *
+ * @callback getUserPhotosCallback
+ * @param {object}  Error response error object
+ * @param {Array}   photos array of photos from specified user
+ */
+
+/**
  * gets photos of specified user
  * @param  {string}   userName username of target user
- * @param  {Function} callback callback called upon completion of API call
- * @return {object}            array of photos from specified user
+ * @param  {getUserPhotosCallback} callback called upon completion of API call
  */
 function getUserPhotos(userName, callback) {
   request({
@@ -63,10 +71,17 @@ function getUserPhotos(userName, callback) {
 }
 
 /**
+ * Callback that returns target user information
+ *
+ * @callback getUserByNameCallback
+ * @param {object}  Error response error object
+ * @param {object}  user  specified user's information
+ */
+
+/**
  * gets the public info of the specified user
  * @param  {string}   userName username of target user
- * @param  {Function} callback callback called upon completion of API call
- * @return {object}            specified user object
+ * @param  {getUserByNameCallback} callback called upon completion of API call
  */
 function getUserByName(userName, callback) {
   request({
@@ -87,9 +102,16 @@ function getUserByName(userName, callback) {
 }
 
 /**
+ * Callback that returns retrieved categories
+ *
+ * @callback getAllCategoriesCallback
+ * @param {object} Error response error object
+ * @param {array} categories array of all available categories
+ */
+
+/**
  * gets all of the available photo categories
- * @param  {Function} callback called upon completion of API call
- * @return {array}            set of photo categories
+ * @param  {getAllCategoriesCallback} callback called upon completion of API call
  */
 function getAllCategories(callback) {
   request({
@@ -110,12 +132,19 @@ function getAllCategories(callback) {
 }
 
 /**
+ * Callback that returns retrieved photos and links
+ *
+ * @callback getPhotosCallback
+ * @param {object} Error response error object
+ * @param {Array} photos array of retrieved photos
+ * @param {string} link string of links for prev/next page
+ */
+
+/**
  * gets a single page of photos from the list of all photos
  * @param  {int}      page     target page number
  * @param  {int}      perPage  number of photos returned per page
- * @param  {Function} callback callback called upon completion of API call
- * @return {object}            array of perPage amount of photos, and a
- *                             string of links for prev/next
+ * @param  {getPhotosCallback} callback called upon completion of API call
  */
 function getPhotos(page, perPage, callback) {
    var params = {};
@@ -145,14 +174,21 @@ function getPhotos(page, perPage, callback) {
 }
 
 /**
+ * Callback that returns array of search results and links
+ *
+ * @callback searchPhotosCallback
+ * @param {object} Error response error object
+ * @param {array} photos search results
+ * @param {string} link string of links for prev/next page
+ */
+
+/**
  * gets a single page of photos by search query
  * @param  {string}   query      term to search by
  * @param  {Array}    categories ids of categories to filter by, as an array of ints
  * @param  {int}      page       target page number
  * @param  {int}      perPage    number of photos returned per page
- * @param  {Function} callback   callback called upon completion of API call
- * @return {object}              array of perPage amount of photos, and a
- *                               string of links for prev/next
+ * @param  {searchPhotosCallback} callback  called upon completion of API call
  */
 function searchPhotos(query, categories, page, perPage, callback) {
    var params = {};
@@ -196,13 +232,20 @@ function searchPhotos(query, categories, page, perPage, callback) {
 }
 
 /**
+ * Callback that returns the request photo information
+ *
+ * @callback getPhotoCallback
+ * @param {object} Error response error object
+ * @param {object} photo requested photo information
+ */
+
+/**
  * gets a single photo by id
  * @param  {string}   id       id of photo to request
  * @param  {int}      width    custom width to apply
  * @param  {int}      height   custom height to apply
  * @param  {Array}    rect     custom rectangle to apply [x, y, width, height]
- * @param  {Function} callback callback called upon completion of API call
- * @return {object}            requested photo
+ * @param  {getPhotoCallback} callback called upon completion of API call
  */
 function getPhoto(id, width, height, rect, callback) {
    var params = {};
@@ -235,10 +278,17 @@ function getPhoto(id, width, height, rect, callback) {
 }
 
 /**
+ * Callback that returns specified category information
+ *
+ * @callback getCategoryCallback
+ * @param {object} Error response error object
+ * @param {object} category target category information
+ */
+
+/**
  * get category information by ID
  * @param  {string}   categoryId ID of target category
- * @param  {Function} callback   called upon completion of API call
- * @return {object}              target category information
+ * @param  {getCategoryCallback} callback  called upon completion of API call
  */
 function getCategory(categoryId, callback) {
   request({
@@ -259,10 +309,20 @@ function getCategory(categoryId, callback) {
 }
 
 /**
+ * Callback that returns photos of specified category
+ *
+ * @callback getCategoryPhotosCallback
+ * @param {object} Error response error object
+ * @param {array} photos retrieved photos
+ * @param {string} link string of prev/next page links
+ */
+
+/**
  * get photos from a specific category
- * @param  {string}   categoryId ID of target category
- * @param  {Function} callback   called upon completion of API call
- * @return {object}              target category information
+ * @param {string} categoryId id of the target category
+ * @param {int} page target page of photos to return
+ * @param {int} perPage number of photos per page
+ * @param {getCategoryPhotosCallback} callback called upon completion of API call
  */
 function getCategoryPhotos(categoryId, page, perPage, callback) {
   var params = {};
@@ -272,7 +332,7 @@ function getCategoryPhotos(categoryId, page, perPage, callback) {
 
   if (perPage != null)
      params.per_page = perPage;
-   
+
   request({
     url: (HOST + path.join('categories', categoryId, 'photos')),
     method: 'GET',
@@ -292,11 +352,18 @@ function getCategoryPhotos(categoryId, page, perPage, callback) {
 }
 
 /**
+ * Callback to return the curated batches
+ *
+ * @callback getCuratedBatchesCallback
+ * @param {object} Error response error object
+ * @param {array} batches set of curated batch information
+ */
+
+/**
  * get a single page of curated batches
  * @param  {int}      page       target page number
  * @param  {int}      perPage    number of results per page
- * @param  {Function} callback   called upon completion of API call
- * @return {object}              target curated batches info
+ * @param  {getCuratedBatchesCallback} callback   called upon completion of API call
  */
 function getCuratedBatches(page, perPage, callback) {
   var params = {};
@@ -306,7 +373,7 @@ function getCuratedBatches(page, perPage, callback) {
 
   if (perPage != null)
   params.per_page = perPage;
-   
+
   request({
     url: (HOST + path.join('curated_batches')),
     method: 'GET',
@@ -326,10 +393,17 @@ function getCuratedBatches(page, perPage, callback) {
 }
 
 /**
+ * Callback that returns the info for a specific curated batch
+ *
+ * @callback getCuratedBatchCallback
+ * @param {object} Error response error object
+ * @param {object} batch target batch information
+ */
+
+/**
  * get info from a curated batch
  * @param  {int}      id         target page number
- * @param  {Function} callback   called upon completion of API call
- * @return {object}              target curated batch info
+ * @param  {getCuratedBatchCallback} callback   called upon completion of API call
  */
 function getCuratedBatch(id, callback) {
   request({
@@ -350,10 +424,17 @@ function getCuratedBatch(id, callback) {
 }
 
 /**
+ * Callback that returns photos of a curated batch
+ *
+ * @callback getCuratedBatchPhotosCallback
+ * @param {object} Error response error object
+ * @param {array} photos set of photos in target batch
+ */
+
+/**
  * get photos from a curated batch
  * @param  {int}      id         target page number
- * @param  {Function} callback   called upon completion of API call
- * @return {object}              target curated batch photos
+ * @param  {getCuratedBatchPhotosCallback} callback   called upon completion of API call
  */
 function getCuratedBatchPhotos(id, callback) {
   request({
@@ -374,9 +455,16 @@ function getCuratedBatchPhotos(id, callback) {
 }
 
 /**
+ * Callback that returns the overall stats
+ *
+ * @callback getTotalStatsCallback
+ * @param {object} Error response error object
+ * @param {object} stats overall stats of the Unsplash site
+ */
+
+/**
  * get total download stats
- * @param  {Function} callback   called upon completion of API call
- * @return {object}              object with total download stats
+ * @param  {getTotalStatsCallback} callback   called upon completion of API call
  */
 function getTotalStats(callback) {
   request({
@@ -397,10 +485,17 @@ function getTotalStats(callback) {
 }
 
 /**
+ * Callback that returns the current logged-in user's information
+ *
+ * @callback geCurrentUserCallback
+ * @param {object} Error response error object
+ * @param {object} user information of current, logged-in user
+ */
+
+/**
  * retrieves personal information about the logged-in user
  * @param  {string}   token    OAuth token for target user
- * @param  {Function} callback called upon completion of API call
- * @return {object}            logged-in user information
+ * @param  {getCurrentUserCallback} callback called upon completion of API call
  */
 function getCurrentUser(token, callback) {
   request({
@@ -421,11 +516,18 @@ function getCurrentUser(token, callback) {
 }
 
 /**
+ * Callback that returns updated information of logged-in user
+ *
+ * @callback updateCurrentUserCallback
+ * @param {object} Error response error object
+ * @param {object} user updated information of logged-in user
+ */
+
+/**
  * update the current logged-in user's personal information
  * @param  {string}   token    OAuth token for target user
  * @param  {object}   changes  information to be changed in logged-in user
- * @param  {Function} callback called upon completion of API call
- * @return {object}            new information of logged-in user
+ * @param  {updateCurrentUserCallback} callback called upon completion of API call
  */
 function updateCurrentUser(token, changes, callback) {
   request({
