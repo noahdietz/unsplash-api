@@ -14,16 +14,16 @@ npm i --save unsplash-api
 
 ## Usage
 
-### Initialization
+#### Initialization
 
-#### Loading the Module
+###### Loading the Module
 
 To load the Unsplash API wrapper:
 ```js
 var unsplash = require('unsplash-api');
 ```
 
-#### .apiInit(clientId)
+####### .apiInit(clientId)
 
 To initialize Unsplash using your client ID:
 ```js
@@ -32,10 +32,10 @@ unsplash.init(clientId);
 ```
 This **must** be done for any of the following functions to return results. Client IDs can be obtained by signing up for the [Unsplash REST API](https://unsplash.com/developers).
 
-### Public Scope Functions
+#### Public Scope Functions
 Public scope functions require only a client ID, initialized using the function above.
 
-#### .getUserByName(username, callback)
+###### .getUserByName(username, callback)
 
 Retrieve information on a specific user.
 To access info by username:
@@ -46,7 +46,7 @@ unsplash.getUserByName('sampleUser', function(error, userInfo) {
 ```
 More info on: [get user](https://unsplash.com/documentation/#get-a-users-public-profile).
 
-#### .getUserPhotos(username, callback)
+###### .getUserPhotos(username, callback)
 
 Retrieve a list of photos uploaded by a specific user.
 To access photos by username:
@@ -57,7 +57,7 @@ unsplash.getUserPhotos('sampleUser', function(error, photos) {
 ```
 More info on: [get user photos](https://unsplash.com/documentation/#list-a-users-photos).
 
-#### .getPhotos(page, perPage, callback)
+###### .getPhotos(page, perPage, callback)
 
 Retrieve photos from a list of all photos. Results are organized by page, with a default of 10 results per page. The first/prev/next/last pages of results can be accessed through the link object.
 To access photos:
@@ -74,7 +74,7 @@ unsplash.getPhotos(2, 20, function(error, photos, link) {
 ```
 More info on: [get photos](https://unsplash.com/documentation/#list-photos).
 
-#### .searchPhotos(query, categories, page, perPage, callback)
+###### .searchPhotos(query, categories, page, perPage, callback)
 
 Retrieve photos filtered by a specific query. Results are organized by page, with a default of 10 results per page, and can be furthered filter by specified categories. The first/prev/next/last pages of results can be accessed through the link object.
 To search photos:
@@ -91,7 +91,7 @@ unsplash.searchPhotos('sampleQuery', [1, 2, 3], 2, 20, function(error, photos, l
 ```
 More info on: [search photos](https://unsplash.com/documentation/#search-photos).
 
-#### .getPhoto(id, width, height, rect, callback)
+###### .getPhoto(id, width, height, rect, callback)
 
 Retrieve a single photo. The photo can be retreived with custom dimensions using width and height, or a specific portion of the photo can be obtained using the rect ([x, y, width, height]) parameter.
 To access a photo by ID:
@@ -106,7 +106,7 @@ unsplash.getPhoto(sampleID, 400, 200, null, function(error, photo) {
    //Access custom sized photo here
 });
 
-//or 
+//or
 
 unsplash.getPhoto(sampleID, null, null, [10, 10, 400, 200], function(error, photo) {
    //Access custom portion of photo here
@@ -114,7 +114,7 @@ unsplash.getPhoto(sampleID, null, null, [10, 10, 400, 200], function(error, phot
 ```
 More info on: [get a photo](https://unsplash.com/documentation/#get-a-photo).
 
-#### .getAllCategories(callback)
+###### .getAllCategories(callback)
 
 Retrieve a list of all categories.
 To access categories:
@@ -125,7 +125,7 @@ unsplash.getAllCategories(function(error, categories) {
 ```
 More info on: [get categories](https://unsplash.com/documentation/#list-categories).
 
-#### .getCategory(categoryId, callback)
+###### .getCategory(categoryId, callback)
 
 Retrieve info on a specific category.
 To access category info by ID:
@@ -136,7 +136,7 @@ unsplash.getCategory(sampleID, function(error, categoryInfo) {
 ```
 More info on: [get a category](https://unsplash.com/documentation/#get-a-category).
 
-#### .getCategoryPhotos(categoryId, page, perPage, callback)
+###### .getCategoryPhotos(categoryId, page, perPage, callback)
 
 Retrieve photos by category. Results are organized by page, with a default of 10 results per page. The first/prev/next/last pages of results can be accessed through the link object.
 To access photos by category ID:
@@ -153,7 +153,7 @@ unsplash.getCategoryPhotos(sampleID, 2, 20, function(error, photos, link) {
 ```
 More info on: [get category photos](https://unsplash.com/documentation/#get-photos-in-a-given-category).
 
-#### .getCuratedBatches(page, perPage, callback)
+###### .getCuratedBatches(page, perPage, callback)
 
 Retrieve a list of curated batches. Results are organized by page, with a default of 10 results per page. The first/prev/next/last pages of results can be accessed through the link object.
 To access curated batches:
@@ -170,7 +170,7 @@ unsplash.getCuratedBatches(2, 20, function(error, batches) {
 ```
 More info on: [get curated batches](https://unsplash.com/documentation/#list-curated-batches).
 
-#### .getCuratedBatch(id, callback)
+###### .getCuratedBatch(id, callback)
 
 Retrieve info on a single curated batch.
 To access curated batch info by ID:
@@ -181,7 +181,7 @@ unsplash.getCuratedBatch(sampleID, function(error, batch) {
 ```
 More info on: [get a curated batch](https://unsplash.com/documentation/#get-a-curated-batch).
 
-#### .getCuratedBatchPhotos(id, callback)
+###### .getCuratedBatchPhotos(id, callback)
 
 Retrieve 10 photos from a curated batch.
 To access photos by curated batch ID:
@@ -192,7 +192,7 @@ unsplash.getCuratedBatchPhotos(sampleID, function(error, photos) {
 ```
 More info on: [get curated batch photos](https://unsplash.com/documentation/#get-photos-in-a-given-curated-batch).
 
-#### .getTotalStats(callback)
+###### .getTotalStats(callback)
 
 Retrieve total Unsplash download stats.
 To access stats:
@@ -203,10 +203,10 @@ unsplash.getTotalStats(function(error, stats) {
 ```
 More info on: [get stats](https://unsplash.com/documentation/#total-download-counts).
 
-### Private Scope Functions
+#### Private Scope Functions
 These functions require an OAuth2 generated token, which can be acquired using [this workflow](https://unsplash.com/documentation/#user-authentication).
 
-#### .getCurrentUser(token, callback)
+###### .getCurrentUser(token, callback)
 
 Retrieve information on the current user. Requires *read_user* scope from authentication.
 To access user info:
@@ -217,7 +217,7 @@ unsplash.getCurrentUser('sampleToken', function(error, userInfo) {
 ```
 More info on: [get current user](https://unsplash.com/documentation/#get-the-users-profile).
 
-#### .updateCurrentUser(token, changes, callback)
+###### .updateCurrentUser(token, changes, callback)
 
 Change information for the current user. Requires *write_user* scope from authentication.
 To update user info:
@@ -229,7 +229,7 @@ unsplash.updateCurrentUser('sampleToken', changes, function(error, userInfo) {
 ```
 More info on: [update current user](https://unsplash.com/documentation/#update-the-current-users-profile).
 
-#### .uploadPhoto(token, photo, callback)
+###### .uploadPhoto(token, photo, callback)
 
 **Currently not implemented.**
 Upload photo for the current user. Requires *write_photos* scope from authentication.
