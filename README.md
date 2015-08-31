@@ -23,7 +23,7 @@ To load the Unsplash API wrapper:
 var unsplash = require('unsplash-api');
 ```
 
-####### .apiInit(clientId)
+###### .apiInit(clientId)
 
 To initialize Unsplash using your client ID:
 ```js
