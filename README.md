@@ -2,7 +2,7 @@
   <img src='./logo.png' alt='Unsplash API Node JS Wrapper Logo'/>
 </p>
 
-# unsplash-api
+<h1 align='center'>unsplash-api</h1>
 
 ## Introduction
 
