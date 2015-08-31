@@ -1,3 +1,5 @@
+![Unsplash Node JS Wrapper Logo](./logo.png)
+
 # unsplash-api
 
 ## Introduction
