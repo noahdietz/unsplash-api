@@ -9,6 +9,7 @@
 
 var request = require('request');
 var path = require('path');
+var fs = require('fs');
 
 var HOST = 'https://api.unsplash.com/'
 var client_id;
@@ -28,7 +29,8 @@ module.exports = {
   getCuratedBatchPhotos: getCuratedBatchPhotos,
   getTotalStats: getTotalStats,
   getCurrentUser: getCurrentUser,
-  updateCurrentUser: updateCurrentUser
+  updateCurrentUser: updateCurrentUser,
+  uploadPhoto: uploadPhoto
 };
 
 /**
@@ -546,4 +548,40 @@ function updateCurrentUser(token, changes, callback) {
 
     return callback(null, JSON.parse(body));
   });
+}
+
+/**
+ * Callback that returns newly submitted photo's information
+ *
+ * @callback uploadPhotoCallback
+ * @param {object} Error response error object
+ * @param {object} photo information of the uploaded photo
+ */
+
+/**
+ * submits a photo to the current logged-in account
+ * @param  {string}   token     OAuth token for target user
+ * @param  {string}   photoPath location of photo to be uploaded
+ * @param  {uploadPhotoCallback} callback  called upon cpmletion of API call
+ */
+function uploadPhoto(token, photoPath, callback) {
+
+  request({
+      url: (HOST + 'photos'),
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      formData: {
+        photo: fs.createReadStream(path.join(process.cwd(), photoPath))
+      }
+    },
+    function(err, res, body) {
+      if (err) return callback(err);
+
+      if (res.statusCode !== 201) return callback(new Error(body), null);
+
+      return callback(null, JSON.parse(body));
+    });
 }

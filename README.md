@@ -231,11 +231,10 @@ More info on: [update current user](https://unsplash.com/documentation/#update-t
 
 ###### .uploadPhoto(token, photo, callback)
 
-**Currently not implemented.**
 Upload photo for the current user. Requires *write_photos* scope from authentication.
 To upload a photo:
 ```js
-unsplash.uploadPhoto('sampleToken', photo, function(error, photo) {
+unsplash.uploadPhoto('sampleToken', photoPath, function(error, photo) {
    //Access the newly uploaded photo here
 });
 ```
