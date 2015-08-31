@@ -245,7 +245,7 @@ describe('Unsplash API public endpoints', function() {
 
     describe('getCategory', function() {
       it('should return without err and category #2 info', function(done) {
-        api.getCategory('2', function(err, category) {
+        api.getCategory(2, function(err, category) {
           if (err) return done(err);
 
           category.should.be.ok;
@@ -256,7 +256,7 @@ describe('Unsplash API public endpoints', function() {
       });
 
       it('should return with invalid ID error', function(done) {
-        api.getCategory('-1', function(err, category) {
+        api.getCategory(-1, function(err, category) {
           err.should.exist;
           chai.expect(category).to.not.exist;
 
@@ -267,7 +267,7 @@ describe('Unsplash API public endpoints', function() {
 
     describe('getCategoryPhotos', function() {
       it('should return without err and an array of the first 10 photos', function(done) {
-        api.getCategoryPhotos('2', null, null, function(err, photos, link) {
+        api.getCategoryPhotos(2, null, null, function(err, photos, link) {
           if (err) return done(err);
 
           photos.should.be.instanceOf(Array);
@@ -279,7 +279,7 @@ describe('Unsplash API public endpoints', function() {
       });
       
       it('should return without err and an array of the second 10 photos', function(done) {
-         api.getCategoryPhotos('2', 2, null, function(err, photos, link) {
+         api.getCategoryPhotos(2, 2, null, function(err, photos, link) {
             if (err) return done(err);
             
             photos.should.be.instanceOf(Array);
@@ -292,7 +292,7 @@ describe('Unsplash API public endpoints', function() {
       });
       
       it('should return without err and an array of the first 20 photos', function(done) {
-         api.getCategoryPhotos('2', null, 20, function(err, photos, link) {
+         api.getCategoryPhotos(2, null, 20, function(err, photos, link) {
             if (err) return done(err);
             
             photos.should.be.instanceOf(Array);
@@ -304,7 +304,7 @@ describe('Unsplash API public endpoints', function() {
       });
 
       it('should return with an invalid ID error', function(done) {
-        api.getCategoryPhotos('-1', null, null, function(err, photos, link) {
+        api.getCategoryPhotos(-1, null, null, function(err, photos, link) {
           err.should.exist;
 
           chai.expect(photos).to.not.exist;
