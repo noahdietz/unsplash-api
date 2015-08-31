@@ -1,4 +1,4 @@
-![Unsplash Node JS Wrapper Logo](./logo.png)
+<img src='./logo.png' align='center' alt='Unsplash Node JS Wrapper Logo'>
 
 # unsplash-api
 
