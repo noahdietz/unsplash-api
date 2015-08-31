@@ -247,3 +247,5 @@ More info on: [upload photo](https://unsplash.com/documentation/#upload-a-photo)
 
 
 License [MIT](https://github.com/noahdietz/unsplash-api/blob/master/LICENSE)
+
+**Disclaimer:** *We are not employees of Unsplash nor do we represent them in any way.*
