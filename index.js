@@ -287,12 +287,12 @@ function getPhoto(id, width, height, rect, callback) {
 
 /**
  * get category information by ID
- * @param  {string}   categoryId ID of target category
+ * @param  {int} categoryId ID of target category
  * @param  {getCategoryCallback} callback  called upon completion of API call
  */
 function getCategory(categoryId, callback) {
   request({
-    url: (HOST + path.join('categories', categoryId)),
+    url: (HOST + path.join('categories', categoryId.toString())),
     method: 'GET',
     headers: {
       'Content-type': 'application/json',
@@ -319,7 +319,7 @@ function getCategory(categoryId, callback) {
 
 /**
  * get photos from a specific category
- * @param {string} categoryId id of the target category
+ * @param {int} categoryId id of the target category
  * @param {int} page target page of photos to return
  * @param {int} perPage number of photos per page
  * @param {getCategoryPhotosCallback} callback called upon completion of API call
@@ -334,7 +334,7 @@ function getCategoryPhotos(categoryId, page, perPage, callback) {
      params.per_page = perPage;
 
   request({
-    url: (HOST + path.join('categories', categoryId, 'photos')),
+    url: (HOST + path.join('categories', categoryId.toString(), 'photos')),
     method: 'GET',
     qs: params,
     headers: {
