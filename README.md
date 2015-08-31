@@ -1,8 +1,4 @@
-<p align='center'>
-  <img src='./logo.png' alt='Unsplash API Node JS Wrapper Logo'/>
-</p>
-
-<h1 align='center'>unsplash-api</h1>
+#unsplash-api
 
 ## Introduction
 
@@ -247,3 +243,5 @@ More info on: [upload photo](https://unsplash.com/documentation/#upload-a-photo)
 
 
 License [MIT](https://github.com/noahdietz/unsplash-api/blob/master/LICENSE)
+
+**Disclaimer:** *We are not employees of Unsplash nor do we represent them in any way.*
