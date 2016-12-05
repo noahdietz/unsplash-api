@@ -27,6 +27,7 @@ module.exports = {
   getCuratedBatches: getCuratedBatches,
   getCuratedBatch: getCuratedBatch,
   getCuratedBatchPhotos: getCuratedBatchPhotos,
+  getRandomPhoto: getRandomPhoto,
   getTotalStats: getTotalStats,
   getCurrentUser: getCurrentUser,
   updateCurrentUser: updateCurrentUser,
@@ -263,6 +264,59 @@ function getPhoto(id, width, height, rect, callback) {
 
    request({
       url: (HOST + path.join('photos', id)),
+      method: 'GET',
+      qs: params,
+      headers: {
+         'Content-type': 'application/json',
+         'Authorization': 'Client-ID ' + this.client_id
+      }
+   },
+   function(err, res, body){
+      if (err) return callback(err);
+
+      if (res.statusCode !== 200) return callback(new Error(body), null);
+
+      return callback(null, JSON.parse(body));
+   });
+}
+
+/**
+ * Callback that returns the request photo information
+ *
+ * @callback getPhotoCallback
+ * @param {object} Error response error object
+ * @param {object} photo requested photo information
+ */
+
+/**
+ * gets a single random photo
+ * @param  {int}      height   custom height to apply
+ * @param  {int}      width   custom height to apply
+ * @param  {string}   query Limit selection to photos matching a search term.
+ * @param  {int}      count    The number of photos to return. (Default: 1; max: 30)
+ * @param  {string}   username Limit selection to a single user.
+ * @param  {getPhotoCallback} callback called upon completion of API call
+ */
+function getRandomPhoto(width, height, query, count, username, callback) {
+   var params = {};
+
+   if (width != null)
+      params.w = width;
+
+  if (height != null)
+      params.h = height;
+
+  if (query != null)
+     params.q = query;
+
+  if (count != null)
+    params.c = count;
+
+  if (username != null)
+    params.y = username;
+
+   request({
+      url: (HOST + path.join('photos/random')),
       method: 'GET',
       qs: params,
       headers: {
