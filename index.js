@@ -307,13 +307,13 @@ function getRandomPhoto(width, height, query, count, username, callback) {
       params.h = height;
 
   if (query != null)
-     params.q = query;
+     params.query = query;
 
   if (count != null)
-    params.c = count;
+    params.count = count;
 
   if (username != null)
-    params.y = username;
+    params.username = username;
 
    request({
       url: (HOST + path.join('photos/random')),
