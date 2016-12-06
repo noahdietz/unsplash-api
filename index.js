@@ -293,11 +293,9 @@ function getPhoto(id, width, height, rect, callback) {
  * @param  {int}      height   custom height to apply
  * @param  {int}      width   custom height to apply
  * @param  {string}   query Limit selection to photos matching a search term.
- * @param  {int}      count    The number of photos to return. (Default: 1; max: 30)
- * @param  {string}   username Limit selection to a single user.
  * @param  {getPhotoCallback} callback called upon completion of API call
  */
-function getRandomPhoto(width, height, query, count, username, callback) {
+function getRandomPhoto(width, height, query, callback) {
    var params = {};
 
    if (width != null)
@@ -308,12 +306,6 @@ function getRandomPhoto(width, height, query, count, username, callback) {
 
   if (query != null)
      params.query = query;
-
-  if (count != null)
-    params.count = count;
-
-  if (username != null)
-    params.username = username;
 
    request({
       url: (HOST + path.join('photos/random')),
